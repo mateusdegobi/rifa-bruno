@@ -1,49 +1,76 @@
 import React, {useEffect, useState} from "react";
 import IconTire from '../../../../assets/image/tire.png';
+import {getDatabase, ref, onValue} from 'firebase/database';
 
 import * as S from './style';
 
-export default function RifaArea() {
-  const [numbers, setNumbers] = useState([]);
-  const solds = [
-    {
-      number: 5,
-      buyer: 'John',
-      email: 'john@example.com',
-      phone: '123-456-1234',
-      date_timestamp: new Date().getTime(),
-    }, {
-      number: 15,
-      buyer: 'John',
-      email: 'john@example.com',
-      phone: '123-456-1234',
-      date_timestamp: new Date().getTime(),
-    },
-  ];
+const preset_solds = [
+  {
+    number: 17,
+    buyer: 'John',
+    email: 'john@example.com',
+    phone: '123-456-1234',
+    date_timestamp: new Date().getTime(),
+  }
+];
 
+export default function RifaArea() {
+  const [solds, setSolds] = useState(preset_solds);
+  const [preSolds, setPreSolds] = useState(preset_solds);
+  const [numbersFiltered, setNumbersFiltered] = useState([]);
+
+  // Recupera dados do Firebase e seta em solds
+  useEffect(() => {
+    // Função para request no Firebase
+    // Recebe a query do DB e a função de set do state
+    function requestFirebase(strQuery, fncSet) {
+      const firebase = getDatabase();
+      const query = ref(firebase, strQuery);
+      onValue(query, snapshot => fncSet(snapshot.val()));
+    }
+    requestFirebase('/solds/', setSolds);
+    requestFirebase('/presolds/', setPreSolds);
+  }, []);
+
+  // Filtra os números à venda (numbers) com solds
   useEffect(()=> {
-    let numbersMutable = [];
+    // Guarda todos os dados dos números
+    // allNumbers = numbers
+    const allNumbers = [];
+    
+    // Percorre e guarda os presets em allNumbers
     for (let number = 0; number <= 20; number++) {
-      numbersMutable.push({
+      allNumbers.push({
         number,
         isAvailable: true,
+        presold: false,
       });
     }
 
+    // Percorre o array solds para setar os números vendidos em allNumbers
     solds.forEach(sold => {
-      numbersMutable.forEach(number => {
+      allNumbers.forEach(number => {
         if(number.number === sold.number) {
           number.isAvailable = false;
         }
       });
-    })
+    });
 
-    setNumbers(numbersMutable);
-  }, []);
+    preSolds.forEach(sold => {
+      allNumbers.forEach(number => {
+        if(number.number === sold.number) {
+          number.isAvailable = false;
+          number.presold = true;
+        }
+      });
+    });
+
+    setNumbersFiltered(allNumbers);
+  }, [solds]);
 
   function HandlerItems() {
-    if(numbers.length > 1) {
-      return numbers.map(number => {
+    if(numbersFiltered.length > 1) {
+      return numbersFiltered.map(number => {
         if (number.isAvailable) {
           return(
             <S.AreaTire>
