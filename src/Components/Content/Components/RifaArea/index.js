@@ -14,7 +14,7 @@ const preset_solds = [
   }
 ];
 
-export default function RifaArea() {
+export default function RifaArea({setIsOpened_modal, setChoosedNumbed}) {
   const [solds, setSolds] = useState(preset_solds);
   const [preSolds, setPreSolds] = useState(preset_solds);
   const [numbersFiltered, setNumbersFiltered] = useState([]);
@@ -70,21 +70,23 @@ export default function RifaArea() {
   }, [solds, preSolds]);
 
   function handlerBuyOrder(number) {
-    const firebase = getDatabase();
-    const query_path = '/presolds/';
-    let query_length;
-    onValue(ref(firebase, query_path), snapshot => {
-      const data = snapshot.val();
-      query_length = data.length;
-    });
+    setChoosedNumbed(number);
+    setIsOpened_modal(true);
+    // const firebase = getDatabase();
+    // const query_path = '/presolds/';
+    // let query_length;
+    // onValue(ref(firebase, query_path), snapshot => {
+    //   const data = snapshot.val();
+    //   query_length = data.length;
+    // });
 
-    set(ref(firebase, `${query_path}/${query_length}/`), {
-      number,
-      buyer: 'John',
-      email: 'john@example.com',
-      phone: '123-456-1234',
-      date_timestamp: new Date().getTime(),
-    });
+    // set(ref(firebase, `${query_path}/${query_length}/`), {
+    //   number,
+    //   buyer: 'John',
+    //   email: 'john@example.com',
+    //   phone: '123-456-1234',
+    //   date_timestamp: new Date().getTime(),
+    // });
   }
 
   function HandlerItems() {
