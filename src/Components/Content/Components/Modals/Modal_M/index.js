@@ -15,9 +15,9 @@ export default function ModalM({isOpened_modal, setIsOpened_modal, choosedNumber
   const [buyer, setBuyer] = useState(null);
   const [phone1, setPhone1] = useState(null);
   const [phone2, setPhone2] = useState(null);
-  const [order, setOrder] = useState(Math.floor(Math.random() * (999999999 - 90000000) + 90000000));
-  
 
+  const order = Math.floor(Math.random() * (999999999 - 90000000) + 90000000);
+  
   function nextScene_continue() {
     setScene1(false);
     setScene2One(true);
