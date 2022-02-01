@@ -14,7 +14,6 @@ export default function Content() {
         setIsOpened_modal={setIsOpened} 
         choosedNumber={choosedNumber} 
       />
-
       <RifaArea setIsOpened_modal={setIsOpened} setChoosedNumbed={setChoosedNumbed} />
     </nav>
   );

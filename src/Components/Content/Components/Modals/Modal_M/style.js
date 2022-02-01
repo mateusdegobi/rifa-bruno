@@ -1,10 +1,6 @@
 import styled from 'styled-components/';
 
-export const Scene1 = styled.div`
-  display: ${props => props.isOn ? 'block' : 'none'};
-`;
-
-export const Scene2 = styled.div`
+export const Scene = styled.div`
   display: ${props => props.isOn ? 'block' : 'none'};
 `;
 
@@ -48,7 +44,7 @@ export const CloseButton = styled.div`
 `;
 
 export const ModalContent = styled.div`
-
+  padding: 1rem;
 `;
 
 export const Title = styled.h2`
@@ -59,6 +55,8 @@ export const Title = styled.h2`
 // Buttons config
 export const ButtonsArea = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 export const ButtonContinue = styled.div`
@@ -70,6 +68,8 @@ export const ButtonContinue = styled.div`
     border-radius: 5px;
     color: #ffffffdd;
     font-weight: 500;
+    margin: 10px;
+    text-align: center;
   }
   &:after {
     content: 'Quero só esse número';
@@ -86,6 +86,7 @@ export const ButtonChooseMore = styled.div`
     border-radius: 5px;
     color: #ffffffdd;
     font-weight: 500;
+    text-align: center;
   }
   &:after {
     content: 'Quero escolher mais números';
